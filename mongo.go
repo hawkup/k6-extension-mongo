@@ -25,3 +25,32 @@ func (*MONGO) NewClient(connectionURI string) (*mongo.Client, error) {
 
 	return client, nil
 }
+
+func (*MONGO) DeleteOne(client *mongo.Client, dbName string, collName string, filter interface{}) (*mongo.DeleteResult, error) {
+	coll := client.Database(dbName).Collection(collName)
+	result, err := coll.DeleteOne(context.Background(), filter)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (*MONGO) FindOne(client *mongo.Client, dbName string, collName string, filter interface{}) *mongo.SingleResult {
+	coll := client.Database(dbName).Collection(collName)
+	result := coll.FindOne(context.Background(), filter)
+
+	return result
+}
+
+func (*MONGO) InsertOne(client *mongo.Client, dbName string, collName string, doc interface{}) (*mongo.InsertOneResult, error) {
+	coll := client.Database(dbName).Collection(collName)
+	result, err := coll.InsertOne(context.Background(), doc)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
